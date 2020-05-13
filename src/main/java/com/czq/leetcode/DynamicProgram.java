@@ -126,14 +126,18 @@ public class DynamicProgram {
 
 
     /**
-     * 0 - 1 背包问题  v w
-     * f(n,c) n个物品放入容量为c的背包，使价值最大
-     * f(i,c) = f(i-1.c)   不放
-     *        = v(i) + f(i-1,c - w(i))  放
-     * 状态转移方程
-     * f(i,c) = max {f(i-1,c),v(i) + f(i-1,c-w(i))}
+     * 1.  0 - 1 背包问题  value[]   weight[]
+     * 2.  f(n,c) n个物品放入容量为c的背包，使价值最大
+     *     f(i,c) = f(i-1.c)   不放
+     *            = v(i) + f(i-1,c - w(i))  放
+     * 3.  状态转移方程
+     *     f(i,c) = max {f(i-1,c),v(i) + f(i-1,c-w(i))}
      *
-     * 时间复杂度：O(n*c)   空间复杂度: O(n*c)
+     * 4.eg:  w[] = {1,2,3}  v[]={6,10,12}  c=5
+     *   id\c   0   1    2    3    4    5
+     *   0      0   6    6    6    6    6
+     *   1      0   6   10   16   16   16
+     *   2      0   6   10   16   18   22
      * */
     public int knapsack01(int []w,int[]v,int c){
         Assert.check(w.length == v.length);
@@ -237,5 +241,9 @@ public class DynamicProgram {
         System.out.println(dynamicProgram.fib1(10));
 
         System.out.println(dynamicProgram.climbStairs70(1));
+
+        int w[] = {1,2,3},v[]={6,10,12},  c=5;
+        System.out.println(dynamicProgram.knapsack01(w,v,c));
+        System.out.println(dynamicProgram.knapsack01V2(w,v,c));
     }
 }
