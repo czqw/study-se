@@ -212,10 +212,36 @@ public class DynamicProgram {
         return memo[c];
     }
 
+    //m[i][c]表示[0....i]这些元素是否可以完全填充一个容量为c的背包   0：没有计算  1：不可以填充  2：可以填充
+    int [][] m;
+    /**递归*/
+    public boolean canPartitionV2416(int[] nums) {
+        int sum = 0;
+        for (int i = 0; i < nums.length; i++)
+            sum += nums[i];
+        if (sum % 2 != 0)
+            return false;
+        m = new int[nums.length][sum/2 + 1];
+        return tryCaPartition(nums, nums.length - 1, sum / 2);
+    }
+    //使用nums[0...index],是否可以完全填充一个容量为sum的背包
+    private boolean tryCaPartition(int[] nums, int index, int sum) {
+        if (sum == 0)
+            return false;
+        if (sum < 0 || index < 0)
+            return false;
+        if (m[index][sum] != 0)
+            return m[index][sum] == 2;
+        m[index][sum]=  (tryCaPartition(nums,index - 1,sum) ||
+                        tryCaPartition(nums,index - 1,sum - nums[index])) ? 2 : 1;
+        return m[index][sum] == 2;
+    }
+
+
     /**
-     * f(n,c) n个硬币，组成c的最少个数
-     * f(i,c) = min{f(i-1,c),f(i,c)}
-     * */
+         * f(n,c) n个硬币，组成c的最少个数
+         * f(i,c) = min{f(i-1,c),f(i,c)}
+         * */
     public int coinChange322(int[] coins, int amount) {
        if (amount == 0)
            return 0;
