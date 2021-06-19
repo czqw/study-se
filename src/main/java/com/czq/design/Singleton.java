@@ -31,9 +31,9 @@ public class Singleton {
         return singleton;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         Executor executor = Executors.newCachedThreadPool();
-        List<Singleton> list = new ArrayList<>(100);
+        List<Singleton> list = new ArrayList<>();
         List<Singleton> ll = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             executor.execute(new Runnable() {
@@ -43,11 +43,31 @@ public class Singleton {
                 }
             });
         }
+        Thread.sleep(1000);
         list.forEach(singleton1 -> {
-            if (singleton1 != Singleton.getInstance())
+            System.out.println(singleton1);
+            if (singleton1 == Singleton.getInstance())
                 ll.add(singleton1);
         });
         System.out.println(ll.size() + "\n========" + Singleton.getInstance() + "=========");
         ((ExecutorService) executor).shutdown();
     }
+}
+class User {
+    private User(){}
+
+    static enum SingletonEnum{
+        INSTANCE;
+        private User user;
+        private SingletonEnum(){
+            user = new User();
+        }
+        public User getInstance(){
+            return user;
+        }
+    }
+    public static User getInstance(){
+        return SingletonEnum.INSTANCE.getInstance();
+    }
+
 }

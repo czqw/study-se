@@ -63,6 +63,7 @@ public class Tree {
         preOrder(root);
         System.out.println();
         floorPrder(root);
+        Queue<TreeNode> q = new ArrayDeque();
     }
 
     public static void preOrder(TreeNode root) {

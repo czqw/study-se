@@ -1,6 +1,7 @@
 package com.czq.sort;
 
 import java.util.Arrays;
+import java.util.Stack;
 
 public class QuickSort {
 
@@ -62,7 +63,6 @@ public class QuickSort {
             if (i < j){
                 a[i++] = a[j];
             }
-
             while (i < j && a[i] < index){
                 i++;
             }

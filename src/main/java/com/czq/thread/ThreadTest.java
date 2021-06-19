@@ -1,5 +1,6 @@
 package com.czq.thread;
 
+import java.util.Arrays;
 import java.util.Timer;
 
 public class ThreadTest {
@@ -13,6 +14,12 @@ public class ThreadTest {
         t.start();
         Thread.sleep(100);
        // t.join();
-        System.out.println(a);
+         System.out.println(a);
+        System.out.println(Integer.MAX_VALUE+"\t" +Integer.MIN_VALUE);
+        System.out.println(-8/2);
     }
+}
+
+class MyThread extends Thread{
+
 }

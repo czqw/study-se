@@ -7,6 +7,8 @@ package com.czq.leetcode;
  **/
 
 import com.sun.tools.javac.util.Assert;
+import com.sun.tools.javac.util.StringUtils;
+import org.omg.PortableInterceptor.INACTIVE;
 
 import java.util.ArrayList;
 
@@ -260,9 +262,56 @@ public class DynamicProgram {
        return memo[amount] == amount + 1  ? -1 : memo[amount];
     }
 
+    /**
+     * 判断子序列
+     * */
+    public boolean isSubsequence392(String s, String t) {
+        return isSub(s,t,s.length());
+    }
+
+    //[0...index]是否是子序列
+    int ti = 0;
+    private boolean isSub(String s, String t, int index) {
+        if (s.length() == 0 ){
+            return true;
+        }
+        if (t.length() == 0) return false;
+        if (ti >= t.length()) return false;
+        if (s.length() == 1){
+            if (t.contains(s)){
+                ti = t.indexOf(s);
+                return true;
+            }
+            return false;
+        }
+        boolean isSub = isSub(s.substring(0,index - 1),t,index -1);
+        if (!isSub) return false;
+        char cur = s.charAt(index-1);
+        if (t.substring(ti + 1).contains(String.valueOf(cur))){
+            ti = t.substring(ti + 1).indexOf(cur) + ti + 1;
+            return true;
+        }
+        return false;
+    }
+
+    ListNode res = null;
+    public ListNode reverseList(ListNode head) {
+        reverse(head).next = null;
+        return res;
+    }
+    private ListNode reverse(ListNode head){
+        if(head != null &&  head.next == null){
+            res = head;
+            return head;
+        }
+        ListNode tem = reverse(head.next);
+        tem.next = head;
+        head.next = null;
+        return head;
+    }
     public static void main(String[] args) {
         DynamicProgram dynamicProgram = new DynamicProgram();
-        dynamicProgram.setMemo(10);
+      /*  dynamicProgram.setMemo(10);
         System.out.println(dynamicProgram.fib(10));
         System.out.println(dynamicProgram.fib1(10));
 
@@ -270,6 +319,23 @@ public class DynamicProgram {
 
         int w[] = {1,2,3},v[]={6,10,12},  c=5;
         System.out.println(dynamicProgram.knapsack01(w,v,c));
-        System.out.println(dynamicProgram.knapsack01V2(w,v,c));
+        System.out.println(dynamicProgram.knapsack01V2(w,v,c));*/
+
+        System.out.println(dynamicProgram.isSubsequence392("","abcde"));
+
+        System.out.println("acccc".indexOf('c'));
+
+        ListNode l1 = new ListNode(1);
+        ListNode l2 = new ListNode(2);
+        ListNode l3 = new ListNode(3);
+        ListNode l4 = new ListNode(4);
+        ListNode l5 = new ListNode(5);
+        l1.next = l2;
+        l2.next = l3;
+        l3.next = l4;
+        l4.next = l5;
+        l5.next = null;
+        dynamicProgram.reverseList(l1);
+        System.out.println(Integer.MIN_VALUE % 10);
     }
 }

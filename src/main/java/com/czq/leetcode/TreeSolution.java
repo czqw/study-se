@@ -163,6 +163,60 @@ public class TreeSolution {
         return root;
     }
 
+    /**
+     * 反转树
+     * */
+    public TreeNode invertTree226(TreeNode root) {
+       if (root == null)
+           return null;
+       invertTree226(root.left);
+       invertTree226(root.right);
+       TreeNode tem = root.left;
+       root.left = root.right;
+       root.right = tem;
+       return root;
+    }
+
+    /**
+     * 递归
+     * */
+    public boolean hasPathSum112(TreeNode root, int sum) {
+        if (root == null) return false;
+        if (root.left == null && root.right == null && root.val == sum) return true;
+        return hasPathSum112(root.left,sum - root.val) || hasPathSum112(root.right,sum - root.val);
+    }
+
+    /**任意方式遍历*/
+    public int sumOfLeftLeaves404(TreeNode root) {
+        if (root == null) return 0;
+        int res = 0;
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+        while (!queue.isEmpty()){
+            TreeNode tem = queue.poll();
+            if (tem.left != null && tem.left.left == null && tem.left.right == null) res+=tem.left.val;
+            if (tem.left != null){
+                queue.add(tem.left);
+            }
+            if (tem.right != null){
+                queue.add(tem.right);
+            }
+        }
+        return res;
+    }
+
+    /**递归*/
+    public int sumOfLeftLeaves404V2(TreeNode root) {
+        return sumOfLeft(root,false);
+    }
+
+    private int sumOfLeft(TreeNode root, boolean isLeft) {
+        if (root == null) return 0;
+        if (root.left == null && root.right == null && isLeft) return root.val;
+        return sumOfLeft(root.left,true) + sumOfLeft(root.right,false);
+    }
+
+
     public static void main(String[] args) {
         TreeSolution solution = new TreeSolution();
         int pre[] = {3,9,20,15,7};
